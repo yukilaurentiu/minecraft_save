@@ -7,9 +7,7 @@ void main(List<String> arguments) {
       print('I cannot find your USB, insert USB and try again');
     } else {
       print('You are using this USB');
-      List arr = usb.split('\n');
-      arr.removeLast();
-      print(arr);
+      makeListUsb(usb);
       print('Type which USB you want to work: ');
       String choice = stdin.readLineSync()!;
       print('Select your choice 1. copyToUsb or 2. copyToComputer: ');
@@ -37,8 +35,14 @@ void main(List<String> arguments) {
   // copyToComputer();
 }
 
+void makeListUsb(String usbs) {
+  List arr = usbs.split('\n');
+  arr.removeLast();
+  print(arr);
+}
+
 void copyToUsb(String choice) {
-  print('Start');
+  print('Start...');
   Process.run('cp', [
     '-r',
     '/home/yuki/.minecraft/saves/test',
@@ -46,11 +50,12 @@ void copyToUsb(String choice) {
   ]).then((result) {
     stdout.write(result.stdout);
     stderr.write(result.stderr);
+     print('Finished!');
   });
 }
 
 void copyToComputer(String choice) {
-  print('Start');
+  print('Start...');
   Process.run('cp', [
     '-r',
     '/media/yuki/$choice/test',
@@ -58,5 +63,6 @@ void copyToComputer(String choice) {
   ]).then((result) {
     stdout.write(result.stdout);
     stderr.write(result.stderr);
+    print('Finished!');
   });
 }
