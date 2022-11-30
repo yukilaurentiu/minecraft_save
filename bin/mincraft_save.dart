@@ -1,5 +1,3 @@
-// yes | cp -r /home/yuki/.minecraft/saves/test /media/yuki/INTENSO
-// yes | cp -r /media/yuki/INTENSO/test /home/yuki/.minecraft/saves
 import 'dart:io';
 
 void main(List<String> arguments) {
