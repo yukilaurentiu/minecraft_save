@@ -1,8 +1,14 @@
 import 'dart:io';
 
 class UsbSaving {
+  String _user = '';
+
+  UsbSaving(String user) {
+    _user = user;
+  }
+
   void start() {
-    Process.run('ls', ['/media/yuki/']).then((result) {
+    Process.run('ls', ['/media/$_user/']).then((result) {
       String usb = result.stdout;
       if (usb.isEmpty) {
         print('I cannot find your USB, insert USB and try again');
@@ -32,8 +38,8 @@ class UsbSaving {
     print('Start...');
     Process.run('cp', [
       '-r',
-      '/home/yuki/.minecraft/saves/test',
-      '/media/yuki/$choice'
+      '/home/$_user/.minecraft/saves/test',
+      '/media/$_user/$choice'
     ]).then((result) {
       stdout.write(result.stdout);
       stderr.write(result.stderr);
@@ -45,8 +51,8 @@ class UsbSaving {
     print('Start...');
     Process.run('cp', [
       '-r',
-      '/media/yuki/$choice/test',
-      '/home/yuki/.minecraft/saves'
+      '/media/$_user/$choice/test',
+      '/home/$_user/.minecraft/saves'
     ]).then((result) {
       stdout.write(result.stdout);
       stderr.write(result.stderr);
