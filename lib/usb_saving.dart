@@ -8,38 +8,48 @@ class UsbSaving {
     _user = user;
   }
 
-  void start() {
-    Process.run('ls', ['/media/$_user/']).then((result) {
-      String usb = result.stdout;
-      if (usb.isEmpty) {
-        print('I cannot find your USB, insert USB and try again');
-      } else {
-        print('You are using this USBs');
-        var t = makeList(usb);
-        print('Type a which USB you want to work with: ');
-        int choice = int.parse(stdin.readLineSync()!);
-        print('Select your choice of number: 1. copyToUsb or 2. copyToComputer: ');
-        String select = stdin.readLineSync()!;
-        if (select == '1') {
-          copyToUsb(t.elementAt(choice));
-        } else if (select == '2') {
-          copyToComputer(t.elementAt(choice));
-        }
-      }
-    });
+  Future<String> getUsbs() async {
+    var result = await Process.run('ls', ['/media/$_user/']);
+    String usb = result.stdout;
+    return usb;
   }
+
+  // void start() {
+  //   Process.run('ls', ['/media/$_user/']).then((result) {
+  //     String usb = result.stdout;
+  //     if (usb.isEmpty) {
+  //       print('I cannot find your USB, insert USB and try again');
+  //     } else {
+  //       print('You are using this USBs');
+  //       var t = makeList(usb);
+  //       print('Type a which USB you want to work with: ');
+  //       int choice = int.parse(stdin.readLineSync()!);
+  //       print(
+  //           'Select your choice of number: 1. copyToUsb or 2. copyToComputer: ');
+  //       String select = stdin.readLineSync()!;
+  //       if (select == '1') {
+  //         copyToUsb(t.elementAt(choice));
+  //       } else if (select == '2') {
+  //         copyToComputer(t.elementAt(choice));
+  //       }
+  //     }
+  //   });
+  // }
 
   List<String> makeList(String items) {
     List<String> arr = items.split('\n');
     arr.removeLast();
-    for(var i = 0; i < arr.length; i++) {
-      print('$i: ${arr[i]}');
-    }
     return arr;
   }
 
+  void showList(List<String> arr) {
+    for (var i = 0; i < arr.length; i++) {
+      print('$i: ${arr[i]}');
+    }
+  }
+
   void copyToUsb(String choice) {
-    Process.run( 'ls', ['/home/$_user/.minecraft/saves/']).then((result) {
+    Process.run('ls', ['/home/$_user/.minecraft/saves/']).then((result) {
       String saves = result.stdout;
       var t = makeList(saves);
       print('Select your choice of number: ');
@@ -56,7 +66,6 @@ class UsbSaving {
         print('Finished!');
       });
     });
-
   }
 
   void copyToComputer(String choice) {
