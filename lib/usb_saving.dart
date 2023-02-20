@@ -10,8 +10,8 @@ class UsbSaving {
 
   Future<String> getUsbs() async {
     var result = await Process.run('ls', ['/media/$_user/']);
-    String usb = result.stdout;
-    return usb;
+    String usbs = result.stdout;
+    return usbs;
   }
 
   // void start() {
@@ -48,36 +48,36 @@ class UsbSaving {
     }
   }
 
-  void copyToUsb(String choice) {
-    Process.run('ls', ['/home/$_user/.minecraft/saves/']).then((result) {
-      String saves = result.stdout;
-      var t = makeList(saves);
-      print('Select your choice of number: ');
-      int select = int.parse(stdin.readLineSync()!);
-
-      print('Start...');
-      Process.run('cp', [
-        '-r',
-        '/home/$_user/.minecraft/saves/${t.elementAt(select)}',
-        '/media/$_user/$choice'
-      ]).then((result) {
-        stdout.write(result.stdout);
-        stderr.write(result.stderr);
-        print('Finished!');
-      });
-    });
+  Future<String> getSaveFiles() async {
+    var result = await Process.run('ls', ['/home/$_user/.minecraft/saves/']);
+    String saves = result.stdout;
+    return saves;
   }
 
-  void copyToComputer(String choice) {
-    print('Start...');
-    Process.run('cp', [
+  void copyToUsb(String selectSave, String choiceUsb) async {
+    // Process.run('ls', ['/home/$_user/.minecraft/saves/']).then((result) {
+    //   String saves = result.stdout;
+    //   var t = makeList(saves);
+    //   print('Select your choice of number: ');
+    //   int select = int.parse(stdin.readLineSync()!);
+
+      // print('Start...');
+      var result = await Process.run('cp', [
+        '-r',
+        '/home/$_user/.minecraft/saves/$selectSave',
+        '/media/$_user/$choiceUsb'
+      ]); 
+        stdout.write(result.stdout);
+        stderr.write(result.stderr);
+  }
+
+  void copyToComputer(String selectSave, String choiceUsb) async {
+    var result = await Process.run('cp', [
       '-r',
-      '/media/$_user/$choice/test',
+      '/media/$_user/$choiceUsb/$selectSave',
       '/home/$_user/.minecraft/saves'
-    ]).then((result) {
+    ]);
       stdout.write(result.stdout);
       stderr.write(result.stderr);
-      print('Finished!');
-    });
   }
 }
