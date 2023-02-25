@@ -1,50 +1,28 @@
-import 'dart:io';
-import 'package:mincraft_save/usb_saving.dart';
-import 'package:mincraft_save/search_user.dart';
+// import 'dart:io';
+// import 'package:mincraft_save/usb_saving.dart';
+// import 'package:mincraft_save/search_user.dart';
+import 'package:mincraft_save/menu.dart';
 
 void main(List<String> arguments) async {
-  var su = SearchUser();
-  String user = await su.search();
+ 
+  var menu = Menu();
 
-  var us = UsbSaving(user);
-  var usbs = await us.getUsbs();
+  await menu.init();
+  await menu.step1();
+  await menu.step2();
+  await menu.step3();
   
-  if (usbs.isEmpty) {
-    print('I cannot find your USB, insert USB and try again');
-    return;
+
+
+  if (menu.data.select == '1') {
+    await menu.step4();
+    await menu.step5();
+    await menu.step6();
+    
+  } else if (menu.data.select == '2') {
+    await menu.step7();
+    await menu.step5();
+    await menu.step8();
   }
-  // view
-  print('You are using this USBs');
-  var usbList = us.makeList(usbs);
-  us.showList(usbList);
-
-  // input usb choice
-  print('Select a number which USB you want to work with: ');
-  int choice = int.parse(stdin.readLineSync()!);
-
-  //input copy select
-  print('Select your choice of number: 1. copyToUsb or 2. copyToComputer: ');
-  String select = stdin.readLineSync()!;
-
-  // input save file select
-    print('Select your file number: ');
-    int selectFile = int.parse(stdin.readLineSync()!);
-
-  if (select == '1') {
-    var saves = await us.getSaveFiles();
-    var savesList = us.makeList(saves);
-    us.showList(savesList);
-
-    print('Start...');
-    us.copyToUsb(savesList.elementAt(selectFile), usbList.elementAt(choice));
-    print('Finished!');
-  } else if (select == '2') {
-    var saves = await us.getSaveFiles();
-    var savesList = us.makeList(saves);
-    us.showList(savesList);
-
-    print('Start...');
-    us.copyToComputer(savesList.elementAt(selectFile), usbList.elementAt(choice));
-    print('Finished!');
-  }
-}
+  print('Finished!');
+ }

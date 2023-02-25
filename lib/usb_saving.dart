@@ -54,6 +54,12 @@ class UsbSaving {
     return saves;
   }
 
+   Future<String> getSaveFilesComputer(String choiceUsb) async {
+    var result = await Process.run('ls', ['/media/$_user/$choiceUsb']);
+    String saves = result.stdout;
+    return saves;
+  }
+
   void copyToUsb(String selectSave, String choiceUsb) async {
     // Process.run('ls', ['/home/$_user/.minecraft/saves/']).then((result) {
     //   String saves = result.stdout;
