@@ -3,6 +3,8 @@ import 'package:mincraft_save/usb_saving.dart';
 import 'package:mincraft_save/data.dart';
 import 'package:mincraft_save/search_user.dart';
 
+
+// controller and view
 class Menu {
 
   Data data = Data();
@@ -18,7 +20,7 @@ class Menu {
     data.usbs = usbs;
   }
 
-  Future<int> step1() async {
+  Future<int> stepCheckUsb() async {
     if (data.usbs.isEmpty) {
       print('I cannot find your USB, insert USB and try again');
       return 0;
@@ -31,14 +33,14 @@ class Menu {
   }
 
   // input usb choice
-  Future<int> step2() async {
+  Future<int> stepChooseUsb() async {
     print('Select a number which USB you want to work with: ');
     int choice = int.parse(stdin.readLineSync()!);
     data.choice = choice;
     return 1;
   }
   // input copy select
-  Future<int> step3() async {
+  Future<int> stepSelectWhereToCopy() async {
     print('Select your choice of number: 1. copyToUsb or 2. copyToComputer: ');
     String select = stdin.readLineSync()!;
     data.select = select;
@@ -46,7 +48,7 @@ class Menu {
   }
 
   // USB show save file 
-  Future<int> step4() async {
+  Future<int> stepShowfilesInComputer() async {
     var saves = await data.us.getSaveFiles();
     var savesList = data.us.makeList(saves);
     data.us.showList(savesList);
@@ -55,7 +57,7 @@ class Menu {
   }
 
   // USB input save file select
-  Future<int> step5() async {
+  Future<int> stepSelectFile() async {
     print('Select your file number: ');
     int selectFile = int.parse(stdin.readLineSync()!);
     data.selectFile = selectFile; 
@@ -63,7 +65,7 @@ class Menu {
   }
 
   // USB save the data
-  Future<int> step6() async {
+  Future<int> stepSaveToUse() async {
     print('Start...');
     data.us.copyToUsb(
       data.savesList.elementAt(data.selectFile), 
@@ -73,7 +75,7 @@ class Menu {
   }
 
   // Computer show save file 
-  Future<int> step7() async {
+  Future<int> stepShowfilesInUsb() async {
     var saves = await data.us.getSaveFilesComputer(
       data.usbList.elementAt(data.choice)
       );
@@ -85,7 +87,7 @@ class Menu {
   
   
   // Computer save the data 
-  Future<int> step8() async {
+  Future<int> stepSaveToComputer() async {
     print('Start...');
      data.us.copyToComputer(
       data.savesList.elementAt(data.selectFile), 

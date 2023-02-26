@@ -8,21 +8,21 @@ void main(List<String> arguments) async {
   var menu = Menu();
 
   await menu.init();
-  await menu.step1();
-  await menu.step2();
-  await menu.step3();
+  await menu.stepCheckUsb();
+  await menu.stepChooseUsb();
+  await menu.stepSelectWhereToCopy();
   
 
 
   if (menu.data.select == '1') {
-    await menu.step4();
-    await menu.step5();
-    await menu.step6();
+    await menu.stepShowfilesInComputer();
+    await menu.stepSelectFile();
+    await menu.stepSaveToUse();
     
   } else if (menu.data.select == '2') {
-    await menu.step7();
-    await menu.step5();
-    await menu.step8();
+    await menu.stepShowfilesInUsb();
+    await menu.stepSelectFile();
+    await menu.stepSaveToComputer();
   }
   print('Finished!');
  }
